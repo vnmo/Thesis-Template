@@ -1,0 +1,102 @@
+%%%%% ---- Draft switch to increase build speed----
+\newif\ifdraft
+\draftfalse% IF the document is final
+\ifdraft
+  \PassOptionsToPackage{draft}{graphicx} 	% Pass package options only when \ifdraft is true:
+\fi
+\PassOptionsToPackage{x11names,table,xcdraw}{xcolor}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[electronic,oldfontcommands]{kthesis}
+
+% Use listfiles to find all used/unused files from the log file
+% \listfiles 
+
+\input{preamble}
+
+\begin{document}
+
+\title{Thesis template}
+% \title{At the Right Time and Place:\\Adaptive Offloading for Energy-Aware Edge AI}
+\subtitle{Compilation thesis}
+\author{{First Name} {Lastname}}
+\date{\today}
+\thesistype{Doctoral Thesis}
+\imprint{Stockholm, Sweden, \the\year{}}
+\examen{Teknologie doktorexamen i elektroteknik}
+\disputationsdatum{TBD}
+\disputationslokal{TBD}
+\publisher{Universitetsservice US AB}
+\address{%
+	KTH Royal Institute of Technology\\%
+	School of Electrical Engineering and Computer Science\\%
+	Division of Information Science and Engineering\\%
+	SE-10044 Stockholm\\%
+	Sweden%
+}
+\isbn{TBD}
+\trita{TBD}
+\kthlogo{resources/KTHLogo}
+\maketitle
+
+\frontmatter% Pages i, ii, iii, iv, v etc.
+\input{body/abstract}
+\input{body/papers}
+\input{body/acks}
+
+\ifdraft
+  % Do not print glossary in draft mode
+  % Do not print table of contents in draft mode
+\else
+	\printglossary[type=\acronymtype, style=long, title=List of Acronyms]
+	\clearpage%
+	\tableofcontents%
+\fi
+
+\mainmatter% Pages 1, 2, 3...
+\glsresetall{} % just to make sure
+\part{Summary}\label{part:summary}
+\newrefsection%
+\chapter{Introduction}\label{chap:introduction}
+\import{body/part1/chapter1-introduction}{0_introduction}
+
+\chapter{Scope \& Related Work}\label{chap:scope}
+\import{body/part1/chapter2-scopeAndRelWorks}{0_scope}
+
+\chapter{Key Contributions \& Results}\label{chap:contributions}
+\import{body/part1/chapter3-contributions}{0_contributions}
+
+\chapter{Conclusions \& Future Work}\label{chap:conclusions}
+\import{body/part1/chapter4-conclusions}{0_conclusions_futurework}
+
+\printbibliography[    % heading=none,
+	heading=bibintoc,title=References,
+    notcategory=thesispapers,notcategory=notincludedPapers,notcategory=additionalpapers]
+
+% Restart Counters
+\counterwithin{theorem}{chapter}
+\counterwithin{lemma}{chapter}
+\counterwithin{definition}{chapter}
+\counterwithin{remark}{chapter}
+\counterwithin{propos}{chapter}
+\counterwithin{conclusion}{chapter}
+
+\renewcommand\chaptername{\newchaptername}
+\addtocontents{toc}{\protect\renewcommand\protect\cftchaptername{\newchaptername~}}
+\renewcommand*{\thechapter}{\Alph{chapter}}
+\part{Publications}\label{part:publications}
+
+\input{publications/pub1}
+\input{publications/pub2}
+
+\bookmarksetup{startatroot}%
+\backmatter%
+
+%% Uncomment if index is needed
+% \ifdraft 
+% \else
+% 	\printindex		% Print index for final version
+% \fi
+
+\end{document}

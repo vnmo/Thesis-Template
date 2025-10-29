@@ -1,0 +1,399 @@
+%! suppress = MissingImport
+%! suppress = MissingBibliographystyle
+%! suppress = DiscouragedUseOfDef
+%! suppress = NonMatchingIf
+%! suppress = Makeatletter
+% Packages
+% --------
+\usepackage{import}
+\usepackage{amsfonts}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage[disable]{todonotes}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{caption}   % to align the table caption to the right/left
+\usepackage{subcaption}
+\usepackage{placeins}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{indentfirst}
+\usepackage{mathrsfs}
+\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage[newfloat]{minted} % must be loaded after amsmath
+\usepackage{relsize}
+\usepackage{mathtools}
+\usepackage[d]{esvect}
+\usepackage{epigraph}
+\usepackage[
+  doi=false,          % disable printing of DOI
+  isbn=false,         % disable printing of ISBN
+  url=true,          % disable printing of URL
+  eprint=true,        % disable printing of eprint information
+    giveninits=false,
+    style=ieee,
+    sorting=appearance-date-name,
+    sortcites,
+    hyperref,
+    mincitenames=1,
+    maxcitenames=2,
+    maxbibnames=10,
+    minbibnames=1,
+    citestyle=numeric-comp, % for [1, 2] instead of [1], [2]
+    backend=biber,
+    defernumbers=true % defernumbers=true = “wait until I know what the list is before giving out numbers.”
+]{biblatex}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bookmark}
+\usepackage{chngcntr}
+\usepackage{tocloft}
+\usepackage[capitalize,nameinlink]{cleveref}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{multicol}
+\usepackage{lipsum}
+%\usepackage[shortcuts]{glossaries}
+\usepackage[nogroupskip,nonumberlist,shortcuts,acronym,automake]{glossaries-extra}
+\usepackage{glossaries-prefix}
+\usepackage{glossary-mcols}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage[nopagecolor=white]{pagecolor}
+\usepackage{forest}
+\usepackage[export]{adjustbox}
+\usepackage[Sonny]{fncychap}
+\usepackage{xparse}
+\usepackage{appendix}
+\usepackage[all]{hypcap}
+\usepackage{soul}
+\usepackage{epstopdf}
+%\usepackage{wrapfig2}
+%\usepackage{paralist}
+
+
+%%%%%%%%%%%%%%%%% Added by Samie %%%%%%%%%%%%%%%%%
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand*{\expe}{\mathbb{E}}
+
+%%%%%%%%%%%%%%%%% Added by Vishnu %%%%%%%%%%%%%%%%%
+% Draft-specific settings
+\ifdraft %Based on draft switch defined at the start of main.tex
+  \hypersetup{draft} % disables link annotations (faster, avoids reruns)
+  \pdfcompresslevel=0 			% Remove pdf compression for speed
+  \pdfobjcompresslevel=0		% Remove pdf compression for speed
+\else 
+  \usepackage{makeidx}
+  \makeindex
+\fi
+\usepackage{chngcntr} % for \counterwithin
+\usepackage{nicefrac}
+% \usepackage{xfrac}
+\usepackage{psfrag} % IDEALLY, REMOVE THIS
+
+% Algorithm Environment
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[ruled,vlined,algo2e]{algorithm2e}
+% \usepackage{algpseudocode}  % For AAAI paper
+% \usepackage{algorithm2e} 
+% \usepackage{algpascal}
+% \epstopdfsetup{outdir=build/}
+\newcommand{\Yes}{\textcolor{green!45!black}{$\checkmark$}}
+\newcommand{\No}{\textcolor{red!65!black}{$\times$}}
+
+\providecommand{\ceil}[1]{\left \lceil #1 \right \rceil }
+\providecommand{\floor}[1]{\left \lfloor #1 \right \rfloor }
+\def\P{{\mathbb P}} 
+\def\p{{p}}
+\def\Q{{\bm Q}} 
+\def\E{{\mathbb E}} 
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\newtheorem{propos}{Proposition}
+\newtheorem{corol}[theorem]{Corollary}
+
+%For indicator RV
+% \usepackage{bbm} %For indicator 1. mathbbm. Suggested not to use mathbbm. 
+\DeclareFontFamily{U}{stix2bb}{}
+\DeclareFontShape{U}{stix2bb}{m}{n} {<-> stix2-mathbb}{}
+\NewDocumentCommand{\indicator}{}{\text{\usefont{U}{stix2bb}{m}{n}1}}
+
+%For algorithm comments
+\newcommand{\SideComment}[1]{\hspace{\fill}$\rhd$\;\textit{#1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+% enumitem
+\newlist{inlineenum}{enumerate*}{1}
+\setlist*[inlineenum]{
+    label=(\arabic*),
+    itemjoin={{; }},
+    itemjoin*={{; and }},
+}
+
+% glossary settings
+\setglossarystyle{mcolindexgroup}
+\setabbreviationstyle[acronym]{long-short-user}
+\glstoctrue%
+\makeglossaries%
+\newcommand*\nestedgls[1]{%
+  \protect\ifglsused{#1}{%
+    \glsentryshort{#1}%
+  }{%
+    \glsentrylong{#1}%
+  }%
+}
+\loadglsentries{resources/glossary.tex}
+
+% bibliography settings
+% sorting by order of appearance, then by date, then name
+\DeclareSortingTemplate{appearance-date-name}{
+    \sort{
+        \field{presort}
+    }
+    \sort[final]{
+        \field{sortkey}
+    }
+    \sort{\citeorder}
+    \sort{
+        \field{sortyear}
+        \field{year}
+    }
+    \sort{
+        \field{sortname}
+        \field{author}
+        \field{editor}
+        \field{translator}
+        \field{sorttitle}
+        \field{title}
+    }
+}
+
+
+\bibliography{resources/references,resources/personal_bibliography/bibliography}
+% included papers
+\DeclareBibliographyCategory{thesispapers}
+\addtocategory{thesispapers}{pub1Key}
+\addtocategory{thesispapers}{pub2Key}
+\addtocategory{thesispapers}{pub3Key}
+\newcommand{\citeallnames}%
+{\AtNextCite{\defcounter{maxnames}{99}}\citename}
+
+\DeclareBibliographyCategory{notincludedPapers}
+\addtocategory{notincludedPapers}{pub4Key}
+\addtocategory{notincludedPapers}{pub5Key}
+
+\DeclareBibliographyCategory{additionalpapers}
+\addtocategory{additionalpapers}{pub6Key}
+\addtocategory{additionalpapers}{pub7Key}
+
+
+\makeatletter
+\newcommand{\int@suppauthtitle}{%
+    \def\ifciteibid{\@secondoftwo}%
+    \renewbibmacro*{author}{}%
+    \renewbibmacro*{editor+others}{}%
+    \renewbibmacro*{translator+others}{}%
+    \renewbibmacro*{url}{}%
+    \renewbibmacro*{in:}{Refereed article published in\\}%
+    \renewbibmacro*{title}{}%
+    \renewbibmacro*{annotation}{}%
+    \renewbibmacro*{journal}{%
+        \ifboolexpr{
+            test {\iffieldundef{journaltitle}}
+            and
+            test {\iffieldundef{journalsubtitle}}
+        }
+        {}
+        {\printtext[journaltitle]{%
+            \normalfont{Refereed article published in}\\
+            \printfield[titlecase]{journaltitle}%
+            \setunit{\subtitlepunct}%
+            \printfield[titlecase]{journalsubtitle}}}}
+}%
+\newcommand{\suppauthtitle}{\AtNextCite{\int@suppauthtitle}}
+\makeatother
+
+% listings setup (minted)
+\SetupFloatingEnvironment{listing}{name=List.,within=none}
+
+% table captions
+\captionsetup[table]{justification=centerlast,
+    labelsep=newline,
+    font=sf,
+    textfont=footnotesize}
+
+
+%% headers - New
+% --- Memoir-native header/footer setup (replaces fancyhdr) ---
+\nouppercaseheads % Headers are not forced to uppercase % check this if Uppercase is needed for section on the leftmark
+\makepagestyle{thesis}
+\makeheadrule{thesis}{\textwidth}{\normalrulethickness}
+% LE,RO = page number; RE = leftmark (chapter); LO = rightmark (section)
+\makeevenhead{thesis}{\thepage}{}{\small\leftmark}
+\makeoddhead {thesis}{\small\rightmark}{}{\thepage}
+% Empty footers (like \fancyhf{})
+\makeevenfoot{thesis}{}{}{}
+\makeoddfoot {thesis}{}{}{}
+% Define what leftmark/rightmark contain
+\makepsmarks{thesis}{%
+  \createmark{chapter}{left}{shownumber}{\chaptername\ }{.\ }%
+  \createmark{section}{right}{shownumber}{}{.\ }%
+}
+\pagestyle{thesis}
+% \aliaspagestyle{chapter}{thesis} % apply on chapter-opening pages too. Check this todo
+
+% from ToMC preamble
+\newcommand{\edgedroid}{EdgeDroid~\num{2.0}}
+\newcommand*\dif{\,\mathrm{d}}
+\newcommand*\df{\mathrm{d}}
+\newcommand*\ts{T_{\text{s}}}
+
+% appendix settings
+\crefname{appendixwithoutnumber}{appendix}{appendices}
+\crefformat{appendixwithoutnumber}{#2the \appendixname#3}
+\Crefformat{appendixwithoutnumber}{#2The \appendixname#3}
+
+% ack and dedication sections section
+\newenvironment{acks}{\section*{Acknowledgements}}{}
+\newenvironment{dedication}%
+{\cleardoublepage\null\vspace{\stretch{1}}\begin{flushright}\itshape}
+    {\end{flushright}\vspace{\stretch{2}}\null}
+
+
+% toc and subsection settings
+\setsecnumdepth{subsection}
+\setcounter{tocdepth}{1}
+\setlength{\cftsectionindent}{0pt} % Remove indent for \section
+\setlength{\cftsubsectionindent}{0pt} % Remove indent for \subsection
+\setlength{\cftsubsubsectionindent}{0pt}
+\renewcommand{\cftchapteraftersnum}{:} % for ToC ``Chapter:''
+
+% chapter and paper ``chapter'' settings
+\counterwithin{chapter}{part} % reset chapter numbering after part change
+\renewcommand*{\thechapter}{\arabic{chapter}} % remove part number from chapter name
+\ChNameVar{\normalfont\large\rmfamily}
+\ChNumVar{\normalfont\rmfamily\bfseries}
+\ChTitleVar{\normalfont\rmfamily\huge}
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+
+\definecolor{titlecolor}{HTML}{B7DBEE} %SkyBlue
+%% Other colours
+% \definecolor{titlecolor}{HTML}{ECCEF5}
+% \definecolor{titlecolor}{HTML}{75AADB}
+% \definecolor{titlecolor}{HTML}{FFFFFF}
+
+\renewcommand\cftchaptername{\chaptername~}
+\newcommand\newchaptername{Paper}
+\crefname{paper}{Paper}{Papers}
+
+\newcommand{\thesispaper}[2]
+{
+    \endrefsection%
+    \glsresetall% % reset all acronyms
+    \edef\stitle{#1}
+    \edef\ptitle{\citefield{#2}{title}}
+    \edef\plabel{paper:#2}
+
+    \cleardoublepage%
+    \begin{titlingpage*}
+        \newpagecolor{titlecolor}
+        \chapter[\stitle]{\ptitle}\label[paper]{\plabel}
+
+        \begin{flushright}
+        {\citeallnames{#2}{author}}
+
+            \vspace{3em}
+
+            \suppauthtitle\fullcite{#2}
+        \end{flushright}
+
+        \thispagestyle{empty}
+        \clearpage%
+        \hspace{0pt}\vfill%
+        \noindent\textcopyright~{\citeyear{#2}~\citelist{#2}{publisher}}
+
+        \noindent{Layout has been revised and formulations and terms may have been altered for dissertation consistency}
+
+        \vfill\hspace{0pt}%
+    \end{titlingpage*}%
+    \restorepagecolor%
+    \newrefsection% new refsection
+}
+
+\newcommand{\preprintthesispaper}[5]
+{
+    \glsresetall%
+    \endrefsection%
+    \edef\stitle{#1}
+    \edef\ptitle{\citefield{#2}{title}}
+    \edef\plabel{paper:#2}
+
+    \cleardoublepage%
+    \begin{titlingpage*}
+        \newpagecolor{titlecolor}
+        \chapter[\stitle]{\ptitle}\label[paper]{\plabel}
+
+        \begin{flushright}
+        {\citeallnames{#2}{author}}
+
+            \vspace{3em}
+
+            Under revision.\\
+            Article submitted to~\emph{#4}\\
+            \vspace{1em}%
+            Pre-print can be found on arXiv: \href{https://arxiv.org/abs/#3}{https://arxiv.org/abs/#3}
+        \end{flushright}
+
+        \thispagestyle{empty}
+        \clearpage%
+        \hspace{0pt}\vfill%
+        \noindent\textcopyright~{\citeyear{#2}~\citeauthor{#2}}
+
+        \noindent{Layout has been revised and formulations and terms may have been altered for dissertation consistency}
+
+        \vfill\hspace{0pt}%
+    \end{titlingpage*}%
+    \restorepagecolor%
+    \newrefsection%
+}
+
+% Define a custom citation command for clickable shorthand without brackets
+\DeclareCiteCommand{\citeshorthand}{}{%
+    \hyperref[paper:\thefield{entrykey}]{\printfield{shorthand}}%
+}{}{}
+
+% ``theorem'' styles for conclusions
+\newtheorem{conclusion}{Conclusion}[section]
+
+
+% citation needed for when writing to mark where a reference needs to go
+\newcommand{\citationeeded}{\todo{Citation needed}}
+
+% tabularx
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
+
+\addto\captionsenglish{% Replace "english" with the language you use
+  \renewcommand{\contentsname}%
+    {Table of Contents}%
+}
+
+
+\setlength{\afterepigraphskip}{3\baselineskip}

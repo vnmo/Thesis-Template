@@ -1,0 +1,42 @@
+\thesispaper{Pub1 short title}{pub1Key}
+% Keep the short title a few words as it appears in the header/footer.
+
+\graphicspath{{publications/pub1/}}
+
+\begin{abstract}
+\input{publications/pub1/01_abstract}
+\end{abstract}
+
+\textbf{Prefatory notes:}
+\begin{itemize}
+    \item Things and notations that differ from \cref{part:summary}
+    \item Contributions/work distributions
+\end{itemize}
+
+\input{publications/pub1/01_Introduction}
+
+\begin{subappendices}
+  \setcounter{section}{0}
+  \renewcommand\thesection{\thechapter.\Alph{section}} % D.A, D.B, …
+  % Make cleveref call these sections “appendix/appendices” locally
+  % You need both the below ones
+  \crefname{section}{appendix}{appendices}
+  \Crefname{section}{Appendix}{Appendices}
+
+  
+  \input{publications/pub1/02_Appendix}
+
+  
+\end{subappendices}
+
+\section*{References}
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\markright{References}
+\newrefcontext[sorting=ynt]{}
+
+%% Uncomment if this paper cites 'own' paper
+% \printbibliography[heading=none,category=thesispapers]{}
+
+\newrefcontext[sorting=appearance-date-name]{}
+\printbibliography[heading=none,notcategory=thesispapers]{}
